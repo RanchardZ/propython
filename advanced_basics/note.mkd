@@ -1,0 +1,25 @@
+#Notes on Unit2: Advanced Basics
+##Using ```__all__``` to Customize Imports
+In order to control what objects get exported when you import all from a module.   
+You can specify the ```__all__``` somewhere in the module. For example:
+```python
+__all__ = ['public_func']  
+def public_func():
+    pass
+def utility_func():
+    pass
+```
+
+##Relative Imports
+A single period allows you to import from the current package. Two periods allow  
+you to import from packages from the parent directory. For example: currently,  
+you are in the .../acme/shopping direnctory. The following codes are equal to  
+import the billing module from the parent directory.
+```python  
+from acme import billing
+from .. import billing
+```
+##The ```__import__()``` function and importlib module
+This function or module is used when the decisions about which module to import  
+are based on user-supplied settings or perhaps you're even allowing users to   
+specify modules directly. (**pp.54**)
