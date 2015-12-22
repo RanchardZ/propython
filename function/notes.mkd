@@ -181,7 +181,7 @@ before or after the wrapped function executes.**
             if log_func is not None:
                 log_func(str(e))
 ```
-
+****
 ##Generators
 Generators allows you to define a function that can produce individual values one at a time, rather than just a single return value, you have the added flexibility of a function and the performance of an iterator.
 ```python
@@ -193,3 +193,26 @@ Generators allows you to define a function that can produce individual values on
         a, b = b, c
         count -= 1
 ```
+****
+##Lambdas
+```python
+    g = lambda x: x**2
+    a = lambda: 'example'
+    b = lambda: x, y=3: x + y
+```
+>###Introspection
+we could use the attribut ```__name__``` to track the name of a given function
+```python
+    def example():
+        pass
+    example.__name__
+    (lambda: None).__name__
+```
+****
+##Identify Object Types
+* use the built-in **type()** function
+* use **isinstance()** function to test whether an object is an instance of a class
+
+##Modules and Pcakages
+* all functions and classes have a ```__module__``` attribute, which contains the import location of the module where the code was defined.
+* functions have a ```__doc__``` attribute which stores the docstrings of that functions.
