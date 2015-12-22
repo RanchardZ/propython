@@ -41,3 +41,117 @@ Putting together we got:
     load_writable = functools.partial(load_file, mode='w')
 ```
 >It's like a function decorator. You type in a function, it gives back another one.
+##Decorators
+###common stuations when decorators are used
+* Access control
+* Cleanup of temporary objects
+* Error handling
+* Caching
+* Logging  
+
+>There are two versions of decorators:  
+
+>*new version:*
+```python
+    @suppress_errors
+    def log_error(message, log_file='error.log'):
+        log = open(log_file, 'w')
+        log.write('%s\t%s\n' % (datetime.datetime.now(), message)
+```
+
+>*old version:*
+```python
+    def log_error(message, log_file='error.log'):
+        log = open(log_file, 'w')
+        log.write('%s\t%s\n' % (datetime.datetime.now(), message)
+    log_error = suppress_errors(log_error)
+```
+>**note that:** the @ syntax is only available when defining the function in the sourcefile.  
+>if you want to decorate a function that was imported from elsewhere, you'll have to   
+>pass it into the decorator mannually, so it's important to remember both ways.
+****
+####Closures
+**A closure is a function that's defined inside another function but is then passed outside  
+that function where it can be used by other code**
+>for example:
+```python
+    def multiply_by(factor):
+        def multiply(value):
+            return value * factor
+        return multiply
+    times2 = multiply_by(2)
+    print(times2(2))
+```
+****
+####Wrappers
+**Wrappers are functions designed to contain another function, adding some extra behavior  
+before or after the wrapped function executes.**
+>for example: the decorator takes a function as its only argument, which isn't executed until  
+>the inner wrapper function executes. By returning the wrapper instead of the original function  
+>we form a closure. 
+```python
+    def suppress_errors(*args, **kwargs):
+        def wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except Exception:
+                pass
+        return wrapper
+```
+>Use a decorator inside a decorator
+```python
+    import functools
+    
+    def suppress_errors(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except Exception:
+                pass
+        return wrapper
+```
+>The inner part is equal to:
+```python
+    wrapper = functools.wraps(func)(wrapper)
+```
+****
+####Decorators with Arguments
+> Here's how the suppress_errors() decorator might look if it instead accepted a logger function  
+>to report the errors to, rather than completely silencing them:
+```python
+    import functools
+    
+    def suppress_errors(log_func=None):
+        def decorator(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if log_func is not None:
+                        log_func(str(e))
+            return wrapper
+        return decorator
+```
+****
+#### Decorators with-or without-Arguments
+```python
+    import functools
+    
+    def suppress_errors(func=None, log_func=None):
+        def decorator(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if log_func is not None:
+                        log_func(str(e))
+            return wrapper
+        if func is None:
+            return decorator
+        else:
+            return decorator(func)
+```
+****
