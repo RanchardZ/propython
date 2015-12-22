@@ -1,0 +1,43 @@
+#Notes on Unit3: Function
+##Variable Positional Arguments
+>The following code implements the add function of a ShoppingCart class  
+>However, it will raise an TypeError when items contains only a single item  
+  
+```python
+class ShoppingCart:
+    def add_to_chart(items):
+        self.items.extend(items)
+```
+>Here we could add an asterisk before an argument name in order to have  
+>the add_to_chart() function valid for both single item and multiple items.
+```python
+class ShoppingCart:
+    def add_to_chart(*items):
+        self.items.extend(items)
+```
+##Combine Different Kinds of Arguments
+### Four types of arguments in python
+* ####Required arguments
+* ####Optional arguments
+* ####Variable positional arguments
+* ####Variable keyword arguments    
+Putting together we got:  
+```python
+    def create_element(name, editable=True, *children, **attributes):
+```  
+>**one shortcoming:** you'd have to supply a value for editable as a positional argument in order to pass in any children at all  
+
+>**another feature:** the explicit arguments placed after variable positional  
+>arguments can still be required. The only difference between the two types
+>of placement is the requirement of using keyword arguments.
+
+##Preloading Arguments
+>when you know some of the argument values will need to be passed later.  
+```python
+    import os
+    def load_file(file, base_path='/', mode='rb'):
+        return open(os.path.join(base_path, file), mode)
+    import functools
+    load_writable = functools.partial(load_file, mode='w')
+```
+>It's like a function decorator. You type in a function, it gives back another one.
