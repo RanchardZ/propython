@@ -15,6 +15,7 @@ class ShoppingCart:
     def add_to_chart(*items):
         self.items.extend(items)
 ```
+****
 ##Combine Different Kinds of Arguments
 ### Four types of arguments in python
 * ####Required arguments
@@ -30,7 +31,7 @@ Putting together we got:
 >**another feature:** the explicit arguments placed after variable positional  
 >arguments can still be required. The only difference between the two types
 >of placement is the requirement of using keyword arguments.
-
+****
 ##Preloading Arguments
 >when you know some of the argument values will need to be passed later.  
 ```python
@@ -41,6 +42,7 @@ Putting together we got:
     load_writable = functools.partial(load_file, mode='w')
 ```
 >It's like a function decorator. You type in a function, it gives back another one.
+****
 ##Decorators
 ###common stuations when decorators are used
 * Access control
@@ -155,3 +157,14 @@ before or after the wrapped function executes.**
             return decorator(func)
 ```
 ****
+##Generators
+Generators allows you to define a function that can produce individual values one at a time, rather than just a single return value, you have the added flexibility of a function and the performance of an iterator.
+```python
+    def fibonacci(count):
+        a, b = -1, 1
+        while count > 0:
+            c = a+b
+            yield 
+        a, b = b, c
+        count -= 1
+```
